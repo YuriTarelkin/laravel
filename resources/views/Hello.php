@@ -1,0 +1,1 @@
+Welcome to start page of Laravel App
