@@ -28,7 +28,7 @@ Route::get('/categories', [CategoriesController::class, 'index'])
 	->name('categories');
 Route::get('/categories/{id}', [NewsController::class, 'index'])
 	->where('id', '\d+')
-	->name('category.show');
+	->name('category.show'); 
 Route::get('/news', [NewsController::class, 'index'])
 	->name('news');
 Route::get('/news/{id}', [NewsController::class, 'show'])
