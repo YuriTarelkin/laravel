@@ -4,7 +4,13 @@
         <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">Список новостей</h1>
         </div>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <a href="{{ route('news.getInfo') }}" class="btn btn-sm btn-outline-secondary">Запросить выгрузку новостей</a>
+            </div>
+        </div>
     </div>
+    
 @endsection
 @section('content')
     @forelse($newsList as $news)

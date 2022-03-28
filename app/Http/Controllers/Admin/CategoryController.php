@@ -19,7 +19,9 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        //
+        return response()->json(
+			$request->only('title', 'description'), 201
+		  );
     }
 
   
