@@ -41,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $table = "users";
+
+    public function getUsers(): array
+	{
+		return \DB::table($this->table)
+			->select("id", "name", "email", "created_at", "updated_at")
+			->get()->toArray();
+    }
+
+    public function getUserById(int $id): mixed
+	{
+        return \DB::table($this->table)->find($id);
+	}
 }

@@ -7,25 +7,24 @@
     </div>
 @endsection
 @section('content')
-    @forelse($categoriesList as $categories)
+    @forelse($categories as $category)
        <div class="col">
-         <div class="card shadow-sm">
-             <img src="{{ $categories['image'] }}">
+         <div class="card shadow-sm">           
 
            <div class="card-body">
               <strong>
-                  <a href=" {{ route('category.show', ['id' => $categories['id']]) }}">
-                      {{ $categories['title'] }}
+                  <a href=" {{ route('category.show', ['id' => $category->id]) }}">
+                      {{ $category->title }}
                   </a>
               </strong>
               <p class="card-text">
-                  {!! $categories['description'] !!}
+                  {!! $category->description !!}
               </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <a href=" {{ route('category.show', ['id' => $categories['id']]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                    <a href=" {{ route('category.show', ['id' => $category->id]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                 </div>
-                  <small class="text-muted">Статус: <em>{{ $categories['status'] }}</em></small>
+                  
             </div>
         </div>
     </div>
