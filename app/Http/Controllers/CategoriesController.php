@@ -11,11 +11,9 @@ use App\Http\Controllers\Controller;
 class CategoriesController extends Controller
 {
     public function index()
-	{
-		$category = app(Category::class);
-
-		return view('categories.index', [
-			'categories' => $category->getCategories()
+    {
+        return view('categories.index', [
+			'categories' => Category::withCount('news')->paginate(10)
 		]);
-	}
+    }
 }

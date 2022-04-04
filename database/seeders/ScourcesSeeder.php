@@ -6,7 +6,7 @@ use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class NewsSeeder extends Seeder
+class ScourcesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,25 +15,20 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
-		\DB::table('news')->insert($this->getData());
-	}
+		\DB::table('scources')->insert($this->getData());
+    }
+
 	private function getData(): array
 	{
 		$faker = Factory::create();
 		$data = [];
-		for($i=0; $i < 10; $i++) {
+		for($i=0; $i < 100; $i++) {
 			$data[] = [
-				'category_id' => 1,
-				'scource_id' => $faker->numberBetween(1, 100),
-				'title'  => $faker->jobTitle(),
-				'status' => 'ACTIVE',
-				'author' => $faker->userName(),
-				'image'  => $faker->imageUrl(),
-				'description' =>  $faker->text(100)				
+				'name'  => $faker->jobTitle(),
+				'url' =>  $faker->text(100)
 			];
 		}
 
 		return $data;
 	}
-
 }

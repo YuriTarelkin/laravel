@@ -3,29 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Scource;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class ScourceController extends Controller
 {
     public function index()
     {
-        return view('admin.categories.index', [
-			'categories' => Category::withCount('news')->paginate(10)
+        return view('admin.scources.index', [
+			'scources' => Scource::withCount('news')->paginate(10)
 		]);
     }
 
     public function create()
     {
-		return view('admin.categories.create');
+		return view('admin.scources.create');
     }
 
     public function store(Request $request)
     {
-        $data = $request->only(['title', 'description']);
-        $category = Category::create($data);
-        if($category) {
-			    return redirect()->route('admin.categories.index')
+        $data = $request->only(['name', 'url']);
+        $scource = Scource::create($data);
+        if($scource) {
+			    return redirect()->route('admin.scources.index')
 				    ->with('success', 'Запись успешно добавлена');
 		}
 
@@ -38,20 +38,20 @@ class CategoryController extends Controller
         //
     }
 
-    public function edit(Category $category)
+    public function edit(Scource $scources)
     {
-		  return view('admin.categories.edit', [
-			  'category' => $category
+		  return view('admin.scources.edit', [
+			  'scource' => $scource
 	  	]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Scource $scource)
     {
-      $status = $category->fill($request->only(['title', 'description']))
+      $status = $scource->fill($request->only(['name', 'url']))
         ->save();
 
       if($status) {
-        return redirect()->route('admin.categories.index')
+        return redirect()->route('admin.scources.index')
           ->with('success', 'Запись успешно обновлена');
 		}
 

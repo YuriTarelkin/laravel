@@ -12,6 +12,7 @@
     </div>
     
 @endsection
+@include('inc.messages')
 @section('content')
     @forelse($news as $news)
        <div class="col">

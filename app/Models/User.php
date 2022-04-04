@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
         'email',
         'password',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -44,15 +47,4 @@ class User extends Authenticatable
 
     protected $table = "users";
 
-    public function getUsers(): array
-	{
-		return \DB::table($this->table)
-			->select("id", "name", "email", "created_at", "updated_at")
-			->get()->toArray();
-    }
-
-    public function getUserById(int $id): mixed
-	{
-        return \DB::table($this->table)->find($id);
-	}
 }

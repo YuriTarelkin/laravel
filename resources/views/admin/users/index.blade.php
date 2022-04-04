@@ -6,6 +6,7 @@
     </div>
 
     <div class="table-responsive">
+        @include('inc.messages')
         <table class="table table-bordered">
             <thead>
               <tr>

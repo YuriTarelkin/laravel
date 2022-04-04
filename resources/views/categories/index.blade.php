@@ -6,6 +6,7 @@
         </div>
     </div>
 @endsection
+@include('inc.messages')
 @section('content')
     @forelse($categories as $category)
        <div class="col">

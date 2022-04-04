@@ -25,6 +25,12 @@
                     Пользователи
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.scources.*')) active @endif" href="{{ route('admin.scources.index') }}">
+                    <span data-feather="navigation"></span>
+                    Источники новостей
+                </a>
+            </li>
 
         </ul>
 

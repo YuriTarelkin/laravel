@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
@@ -11,19 +12,18 @@ class News extends Model
 
 	protected $table = "news";
 
-	public function getNews(): array
+	protected $fillable = [
+		'category_id', 'scource_id', 'title', 'status',
+		'author', 'image', 'description'
+	];
+
+	public function category(): BelongsTo
 	{
-		return \DB::table($this->table)
-			->join('categories', 'news.category_id',
-			'=', 'categories.id')
-			->select('news.*', 'categories.title as categoryTitle')
-			->where('news.status', '=', 'ACTIVE')	
-			->get()
-			->toArray();
+		return $this->belongsTo(Category::class);
 	}
 
-    public function getNewsById(int $id): mixed
+	public function scource(): BelongsTo
 	{
-        return \DB::table($this->table)->find($id);
+		return $this->belongsTo(Scource::class);
 	}
 }

@@ -13,7 +13,7 @@ class UserController extends Controller
         $user = app(User::class);
 
         return view('admin.users.index', [
-			'users' => $user->getUsers()
+			'users' => User::all()
 		]);
     }
 

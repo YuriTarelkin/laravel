@@ -8,14 +8,12 @@ use App\Models\News;
 
 class NewsController extends Controller
 {
-    public function index()
-	{
-		$news = app(News::class);
-
+	public function index()
+    {
 		return view('news.index', [
-			'news' => $news->getNews()
+			'news' => News::with('category')
 		]);
-	}
+    }
 
 	public function store(Request $request)
     {
@@ -26,10 +24,8 @@ class NewsController extends Controller
 
 	public function show(int $id)
 	{
-		$news = app(News::class);
-
 		return view('news.show', [
-			'news' => $news->getNewsById($id)
+			'news' => News::find($id)
 		]);
 	}
 

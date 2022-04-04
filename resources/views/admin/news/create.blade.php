@@ -9,14 +9,28 @@
     </div>
 
     <div class="raw">
-        @if($errors->any())
-            @foreach($errors->all() as $error)
-                <x-alert type="danger" :message="$error"></x-alert>
-            @endforeach
-        @endif
+        @include('inc.messages')
         <form method="post" action="{{ route('admin.news.store') }}">
             @csrf
 
+            <div class="form-group">
+                <label for="category_id">Категория</label>
+                <select name="category_id" id="category_id" class="form-control">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}"
+                           @if($category->id === old('category_id')) selected @endif>{{ $category->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="scource_id">Источник</label>
+                <select name="scource_id" id="scource_id" class="form-control">
+                    @foreach($scources as $scource)
+                        <option value="{{ $scource->id }}"
+                           @if($scource->id === old('scource_id')) selected @endif>{{ $scource->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="form-group">
                 <label for="title">Наименование</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
@@ -24,6 +38,10 @@
             <div class="form-group">
                 <label for="author">Автор</label>
                 <input type="text" class="form-control" name="author" id="author" value="{{ old('author') }}">
+            </div>
+            <div class="form-group">
+                <label for="image">Изображение</label>
+                <input type="file" class="form-control" name="image" id="image">
             </div>
             <div class="form-group">
                 <label for="status">Статус</label>
