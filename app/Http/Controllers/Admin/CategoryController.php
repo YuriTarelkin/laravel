@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Categories\CreateRequest;
+use App\Http\Requests\Categories\EditRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
@@ -20,16 +23,15 @@ class CategoryController extends Controller
 		return view('admin.categories.create');
     }
 
-    public function store(Request $request)
+    public function store(CreateRequest $request, Category $category)
     {
-        $data = $request->only(['title', 'description']);
-        $category = Category::create($data);
+        $category = Category::create($request->validated());;
         if($category) {
 			    return redirect()->route('admin.categories.index')
-				    ->with('success', 'Запись успешно добавлена');
-		}
+				    ->with('success', __('messages.admin.categories.create.success'));
+		    }
 
-		return back()->with('error', 'Не удалось добавить запись');
+		    return back()->with('error', __('messages.admin.categories.create.fail'));
 
     }
 
@@ -45,22 +47,26 @@ class CategoryController extends Controller
 	  	]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(EditRequest $request, Category $category)
     {
-      $status = $category->fill($request->only(['title', 'description']))
-        ->save();
+      $status = $category->fill($request->validated())->save();
 
       if($status) {
         return redirect()->route('admin.categories.index')
-          ->with('success', 'Запись успешно обновлена');
-		}
-
-	  	return back()->with('error', 'Не удалось обновить запись');
-
+          ->with('success', __('messages.admin.categories.update.success'));
+		  }
+	  	return back()->with('error', __('messages.admin.categories.update.fail'));
     }
 
-    public function destroy($id)
+    public function destroy(Category $category): JsonResponse
     {
-        //
+      try{
+        $category->delete();
+ 
+        return response()->json(['status' => 'ok']);
+     }catch (\Exception $e) {
+       \Log::error("Category wasn't delete");
+       return response()->json(['status' => 'error'], 400);
+     }
     }
 }

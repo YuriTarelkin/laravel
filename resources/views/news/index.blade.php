@@ -13,8 +13,8 @@
     
 @endsection
 @include('inc.messages')
-@section('content')
-    @forelse($news as $news)
+@section('content')   
+    @forelse($newsList as $news)
        <div class="col">
          <div class="card shadow-sm">
              <img src="{{ $news->image }}">

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Scource;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\Scources\CreateRequest;
+use App\Http\Requests\Scources\EditRequest;
 
 class ScourceController extends Controller
 {
@@ -20,16 +23,15 @@ class ScourceController extends Controller
 		return view('admin.scources.create');
     }
 
-    public function store(Request $request)
+    public function store(CreateRequest $request, Scource $scource)
     {
-        $data = $request->only(['name', 'url']);
-        $scource = Scource::create($data);
-        if($scource) {
-			    return redirect()->route('admin.scources.index')
-				    ->with('success', 'Запись успешно добавлена');
-		}
+      $scource = Scource::create($request->validated());;
+      if($scource) {
+        return redirect()->route('admin.scources.index')
+          ->with('success', __('messages.admin.scources.create.success'));
+      }
 
-		return back()->with('error', 'Не удалось добавить запись');
+      return back()->with('error', __('messages.admin.scources.create.fail'));
 
     }
 
@@ -38,29 +40,34 @@ class ScourceController extends Controller
         //
     }
 
-    public function edit(Scource $scources)
+    public function edit(Scource $scource)
     {
 		  return view('admin.scources.edit', [
 			  'scource' => $scource
 	  	]);
     }
 
-    public function update(Request $request, Scource $scource)
+    public function update(EditRequest $request, Scource $scource)
     {
-      $status = $scource->fill($request->only(['name', 'url']))
-        ->save();
+      $status = $scource->fill($request->validated())->save();
 
       if($status) {
         return redirect()->route('admin.scources.index')
-          ->with('success', 'Запись успешно обновлена');
-		}
-
-	  	return back()->with('error', 'Не удалось обновить запись');
+          ->with('success', __('messages.admin.scources.update.success'));
+		  }
+	  	return back()->with('error', __('messages.admin.scources.update.fail'));
 
     }
 
-    public function destroy($id)
+    public function destroy(Scource $scource): JsonResponse
     {
-        //
+      try{
+        $scource->delete();
+ 
+        return response()->json(['status' => 'ok']);
+     }catch (\Exception $e) {
+       \Log::error("Scource wasn't delete");
+       return response()->json(['status' => 'error'], 400);
+     }
     }
 }
